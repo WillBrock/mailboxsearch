@@ -1,6 +1,6 @@
 import mailbox from "./mailbox";
 
-function mailboxSearch(object, callback) {
+function mailboxSearch(object) {
 
     let email = object.email,
         password = object.password,
@@ -9,14 +9,13 @@ function mailboxSearch(object, callback) {
         assignee=object.assignee,
         timeout = object.timeout || 10000;
 
-    mailbox
+    return new Promise((resolve, reject) => {
+       mailbox
         .connect(email, password)
         .search({title: title, keyword: keyword,assignee:assignee, timeout: timeout}, letter => {
-            callback(letter);
-         
-        });
-
-    return this;
+            resolve(letter);
+        }); 
+    });
 };
 
 export default mailboxSearch;
